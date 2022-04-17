@@ -14,6 +14,10 @@ contract MyEpicNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    function getTotalNFTsMintedSoFar() public view returns (uint256) {
+        return _tokenIds.current();
+    }
+
     // We split the SVG at the part where it asks for the background color.
     string svgPartOne =
         "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='";
@@ -130,6 +134,8 @@ contract MyEpicNFT is ERC721URIStorage {
 
     function makeAnEpicNFT() public {
         uint256 newItemId = _tokenIds.current();
+
+        require(newItemId < 30, "Max NFTs Minted");
 
         string memory first = pickRandomFirstWord(newItemId);
         string memory second = pickRandomSecondWord(newItemId);
